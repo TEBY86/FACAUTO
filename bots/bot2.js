@@ -48,17 +48,17 @@ async function bot2(ctx, input) {
 
 
   let browser;
-try {
-  browser = await puppeteer.launch({
-    headless: 'new', // 🟩 No muestra ventana del navegador
-    slowMo: 20,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    defaultViewport: { width: 1366, height: 900 },
-  });
+  try {
+    browser = await puppeteer.launch({
+      headless: false,
+      slowMo: 20,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      defaultViewport: { width: 1366, height: 900 },
+    });
 
-  const page = await browser.newPage();
-  await page.setUserAgent('Mozilla/5.0 (...) Chrome/123.0.0.0 Safari/537.36');
 
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (...) Chrome/123.0.0.0 Safari/537.36');
 
 
     // --- Añadir listeners para depuración de carga de página ---

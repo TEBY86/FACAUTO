@@ -1,17 +1,24 @@
+// GESTOR.js (CONTENIDO FINAL CORREGIDO)
+
 // ✅ ahora si
 // — versión funcional con GPT y validación JSON
 
-require('dotenv').config();
+require('dotenv').config(); // Carga variables de entorno para GESTOR.js
 const fs = require('fs');
 const path = require('path');
 const { Telegraf } = require('telegraf');
 const { OpenAI } = require('openai');
-const { bot2 } = require('./bots/bot2');
+// Importa la función bot2 desde el archivo bot2.js
+// Las declaraciones de puppeteer, StealthPlugin y dotenv deben estar en bot2.js, no aquí.
+const { bot2 } = require('./bots/bot2'); 
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const bot = new Telegraf( process.env.BOT_TOKEN );
-// 🔵 INICIO CAMBIO
+
+console.log('[GESTOR] Bot inicializando...'); // Log de inicio
+
 bot.command('admin', async (ctx) => {
+  console.log('[GESTOR] Comando /admin recibido.'); // Log de comando
   await ctx.reply(`✏️ Instrucciones:
 
 1️⃣ Escribe primero el comando:
@@ -28,8 +35,6 @@ bot.command('admin', async (ctx) => {
 
 📌 Separa cada dato con comas ( , ).`);
 });
-// 🔵 FIN CAMBIO
-
 
 
 function normalizarTexto(texto) {
@@ -38,33 +43,6 @@ function normalizarTexto(texto) {
     .replace(/\p{Diacritic}/gu, '')
     .replace(/[^a-z0-9 ]/g, '')
     .trim();
-}
-
-function generarVariaciones(direccion) {
-  const variantes = new Set();
-  const base = normalizarTexto(direccion);
-  variantes.add(base);
-
-  const prefijos = [
-    ['avenida', 'av'], ['av', 'avenida'],
-    ['pasaje', 'psje'], ['psje', 'pasaje'],
-    ['calle', ''], ['', 'calle']
-  ];
-
-  const partes = base.split(' ');
-  const ultimaParte = partes[partes.length - 1];
-  if (!isNaN(ultimaParte)) {
-    const num = parseInt(ultimaParte);
-    variantes.add(partes.slice(0, -1).join(' ') + ' ' + num);
-    variantes.add(partes.slice(0, -1).join(' ') + ' ' + num.toString().padStart(4, '0'));
-  }
-
-  for (const [a, b] of prefijos) {
-    if (base.startsWith(a + ' ')) variantes.add(base.replace(a, b));
-    if (base.startsWith(b + ' ')) variantes.add(base.replace(b, a));
-  }
-
-  return [...variantes];
 }
 
 function calcularDistanciaLevenshtein(a, b) {
@@ -113,7 +91,7 @@ function verificarDireccion(_regionNoUsar, comunaInput, direccionInput) {
   const listaNormalizada = direcciones.map(dir => typeof dir === 'string' ? normalizarTexto(dir) : normalizarTexto(dir.direccion));
 
   const direccionSoloHastaNumero = direccionInput.split(/torre|depto|dpto|piso|block/i)[0].trim();
-  const variantes = generarVariaciones(direccionSoloHastaNumero);
+  const variantes = [normalizarTexto(direccionSoloHastaNumero)];
 
   console.log('🔄 Variantes generadas:');
   variantes.forEach(v => console.log(`→ ${v}`));
@@ -157,6 +135,7 @@ function verificarDireccion(_regionNoUsar, comunaInput, direccionInput) {
 
 // 🧠 Procesar dirección con GPT
 async function procesarDireccionIA(texto) {
+  console.log(`[GESTOR] Procesando dirección con IA: "${texto}"`); // Log de IA
   texto = texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, ' ').trim();
 
   const prompt = `Analiza cuidadosamente la siguiente dirección escrita libremente por un usuario.
@@ -166,18 +145,20 @@ Extrae únicamente los siguientes campos:
 - calle (obligatorio)
 - número (obligatorio)
 - región (si está explícitamente escrita en el texto, inclúyela; si no, deja "")
+- torre (si está explícitamente escrita, inclúyela; si no, deja "")
+- depto (si está explícitamente escrita, inclúyela; si no, deja "")
 
 El texto puede venir en cualquier orden.
 
 Importante:
 - No inventes datos.
 - No asumas datos.
-- No completes región, comuna, calle o número si no están explícitos.
+- No completes región, comuna, calle, número, torre o depto si no están explícitos.
 - Si no puedes encontrar comuna, calle o número, responde únicamente:
 { "error": "No se pudo interpretar correctamente la dirección" }
 
 Devuelve siempre un JSON con este formato estricto:
-{ "region": "...", "comuna": "...", "calle": "...", "numero": "..." }
+{ "region": "...", "comuna": "...", "calle": "...", "numero": "...", "torre": "...", "depto": "..." }
 
 Dirección: "${texto}"`;
 
@@ -187,7 +168,9 @@ Dirección: "${texto}"`;
       messages: [{ role: 'user', content: prompt }],
       temperature: 0
     });
-    return JSON.parse(completion.choices[0].message.content);
+    const iaResponseContent = completion.choices[0].message.content;
+    console.log(`[GESTOR] Respuesta cruda de IA: ${iaResponseContent}`); // Log de respuesta IA
+    return JSON.parse(iaResponseContent);
   } catch (e) {
     console.error('❌ Error detallado al interpretar IA:', e);
     return { error: '❌ Error interpretando dirección con IA. Intenta nuevamente más tarde.' };
@@ -202,22 +185,29 @@ function guardarJSONLog(data) {
 }
 
 bot.command('factibilidad', async (ctx) => {
+  console.log(`[GESTOR] Comando /factibilidad recibido. Texto: "${ctx.message.text}"`); // Log de comando
   const inputCrudo = ctx.message.text.replace('/factibilidad', '').trim();
-  const partes = inputCrudo.split(',').map(p => p.trim());
-  const baseDireccion = partes.slice(0, 4).join(', ');
-  const parteExtra = partes.slice(4).join(', ');
+  console.log(`[GESTOR] Input crudo para IA: "${inputCrudo}"`); // Log de input crudo
+  
+  const iaResultado = await procesarDireccionIA(inputCrudo);
+  console.log('[GESTOR] Resultado parseado de IA:', iaResultado); // Log de resultado IA
 
-  const iaResultado = await procesarDireccionIA(baseDireccion);
-  if (iaResultado.error) return ctx.reply(iaResultado.error);
-  if (!iaResultado.comuna) return ctx.reply('⚠️ Faltó la comuna. Revisa que esté bien escrita.');
+  if (iaResultado.error) {
+    console.log(`[GESTOR] Error de IA: ${iaResultado.error}`); // Log de error IA
+    return ctx.reply(iaResultado.error);
+  }
+  if (!iaResultado.comuna) {
+    console.log('[GESTOR] Comuna no encontrada por IA.'); // Log de comuna faltante
+    return ctx.reply('⚠️ Faltó la comuna. Revisa que esté bien escrita.');
+  }
 
   const resultado = await verificarDireccion(
     iaResultado.region,
     iaResultado.comuna,
     `${iaResultado.calle} ${iaResultado.numero}`
   );
+  console.log('[GESTOR] Resultado de verificación local:', resultado); // Log de verificación local
 
-// 🔵 INICIO CAMBIO
 if (!resultado.ok) {
   await ctx.reply(`⚠️ Dirección no encontrada en base local. Intentando directamente en WOM...`);
 } else {
@@ -232,35 +222,69 @@ guardarJSONLog({
   timestamp: new Date().toISOString()
 });
 
-const inputFinal = `${resultado.region || iaResultado.region}, ${resultado.comuna || iaResultado.comuna}, ${resultado.calle || iaResultado.calle}, ${resultado.numero || iaResultado.numero}` + (parteExtra ? `, ${parteExtra}` : '');
-console.log('➡️ Input final para bot:', inputFinal);
+const inputFinal = [
+  resultado.region || iaResultado.region,
+  resultado.comuna || iaResultado.comuna,
+  resultado.calle || iaResultado.calle,
+  resultado.numero || iaResultado.numero,
+  iaResultado.torre, // Usar torre parseada por IA
+  iaResultado.depto  // Usar depto parseado por IA
+].filter(Boolean).join(', '); // Filtrar elementos vacíos/undefined antes de unir
+
+console.log('➡️ Input final para bot2:', inputFinal); // Log de input final para bot2
 
 await bot2(ctx, inputFinal);
-// 🔵 FIN CAMBIO
 });
 
 bot.on('text', async (ctx) => {
+  console.log(`[GESTOR] Mensaje de texto recibido. Texto: "${ctx.message.text}"`); // Log de texto
   const texto = ctx.message.text.trim().toLowerCase();
   if (texto.startsWith('factibilidad')) {
     ctx.message.text = '/factibilidad' + ctx.message.text.slice('factibilidad'.length);
+    console.log(`[GESTOR] Redirigiendo a /factibilidad. Nuevo texto: "${ctx.message.text}"`); // Log de redirección
     return bot.handleUpdate(ctx.update);
   }
+  console.log('[GESTOR] Mensaje no es un comando conocido ni "factibilidad". Ignorando.'); // Log de ignorado
 });
 
-// 🔵 INICIO CAMBIO
 bot.command('forzar', async (ctx) => {
-  const input = ctx.message.text.replace('/forzar', '').trim();
-  if (!input || input.split(',').length < 4) {
-    return ctx.reply('⚠️ Usa el formato: /forzar Región, Comuna, Calle, Número');
+  console.log(`[GESTOR] Comando /forzar recibido. Texto: "${ctx.message.text}"`); // Log de comando
+  const inputCrudo = ctx.message.text.replace('/forzar', '').trim();
+  console.log(`[GESTOR] Input crudo para IA (forzar): "${inputCrudo}"`); // Log de input crudo (forzar)
+
+  if (!inputCrudo || inputCrudo.split(',').length < 4) { // Mantener una verificación básica
+    console.log('[GESTOR] Formato incorrecto para /forzar.'); // Log de formato incorrecto
+    return ctx.reply('⚠️ Usa el formato: /forzar Región, Comuna, Calle, Número[, Torre[, Depto]]');
+  }
+
+  const iaResultado = await procesarDireccionIA(inputCrudo);
+  console.log('[GESTOR] Resultado parseado de IA (forzar):', iaResultado); // Log de resultado IA (forzar)
+
+  if (iaResultado.error) {
+    console.log(`[GESTOR] Error de IA (forzar): ${iaResultado.error}`); // Log de error IA (forzar)
+    return ctx.reply(iaResultado.error);
+  }
+  if (!iaResultado.comuna) {
+    console.log('[GESTOR] Comuna no encontrada por IA (forzar).'); // Log de comuna faltante (forzar)
+    return ctx.reply('⚠️ Faltó la comuna. Revisa que esté bien escrita.');
   }
 
   await ctx.reply(`🚀 Ejecutando forzado directo con dirección:
-${input}`);
+${inputCrudo}`);
 
-  // Se elimina la verificación y se envía directo a bot2
-  await bot2(ctx, input);
+  const inputFinal = [
+    iaResultado.region,
+    iaResultado.comuna,
+    iaResultado.calle,
+    iaResultado.numero,
+    iaResultado.torre,
+    iaResultado.depto
+  ].filter(Boolean).join(', ');
+
+  console.log('➡️ Input final para bot2 (forzar):', inputFinal); // Log de input final para bot2 (forzar)
+
+  await bot2(ctx, inputFinal);
 });
-// 🔵 FIN CAMBIO
 
 bot.launch();
 console.log('🚀 Bot con IA para factibilidad iniciado.');

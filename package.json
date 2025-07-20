@@ -1,5 +1,5 @@
 {
-  "name": "proyecto-bot-limpio",
+  "name": "bot-factibilidad-automatica",
   "version": "1.0.0",
   "main": "gestor.js",
   "scripts": {
@@ -21,3 +21,4 @@
     "npm": ">=8"
   }
 }
+
