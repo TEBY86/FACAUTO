@@ -1,0 +1,25 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "metropolitana la granja maipu 6409",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "la granja",
+    "calle": "maipu",
+    "numero": "6409"
+  },
+  "verificarDireccion": {
+    "ok": true,
+    "region": "metropolitana",
+    "comuna": "la granja",
+    "calle": "maipu",
+    "numero": "6409",
+    "direccion": "maipu 6409"
+  },
+  "timestamp": "2025-05-12T02:59:23.751Z"
+}

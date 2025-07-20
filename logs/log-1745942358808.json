@@ -1,0 +1,25 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "Metropolitana Colina Oscar cristi 1657",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "colina",
+    "calle": "oscar cristi",
+    "numero": "1657"
+  },
+  "verificarDireccion": {
+    "ok": true,
+    "region": "Metropolitana",
+    "comuna": "colina",
+    "calle": "oscar cristi",
+    "numero": "1657",
+    "direccion": "oscar cristi 1657"
+  },
+  "timestamp": "2025-04-29T15:59:18.806Z"
+}

@@ -1,0 +1,21 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "Metropolitana, La Florida, Avenida La Florida, 9801",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "la florida",
+    "calle": "avenida la florida",
+    "numero": "9801"
+  },
+  "verificarDireccion": {
+    "ok": false,
+    "mensaje": "🚫 Dirección no encontrada en la florida.\n📌 Sugerencias:\n- avenida la florida 8801\n- avenida la florida 9401\n- avenida la florida 7881"
+  },
+  "timestamp": "2025-05-12T02:56:44.664Z"
+}

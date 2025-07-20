@@ -1,0 +1,25 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "metropolitana la granja 6402",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "la granja",
+    "calle": "",
+    "numero": "6402"
+  },
+  "verificarDireccion": {
+    "ok": true,
+    "region": "metropolitana",
+    "comuna": "la granja",
+    "calle": "santa rosa",
+    "numero": "6402",
+    "direccion": "santa rosa 6402"
+  },
+  "timestamp": "2025-05-12T15:41:49.973Z"
+}

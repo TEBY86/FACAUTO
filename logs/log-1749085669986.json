@@ -1,0 +1,20 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "metropolitana, penalolen, el valle, 3220",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "penalolen",
+    "calle": "el valle",
+    "numero": "3220"
+  },
+  "verificarDireccion": {
+    "error": "⚠️ No se encontró la comuna \"penalolen\"."
+  },
+  "timestamp": "2025-06-05T01:07:49.981Z"
+}

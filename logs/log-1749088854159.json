@@ -1,0 +1,25 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "santiago Chacabuco, 1120, dpto 2504",
+  "analisis_ia": {
+    "region": "",
+    "comuna": "santiago",
+    "calle": "chacabuco",
+    "numero": "1120"
+  },
+  "verificarDireccion": {
+    "ok": true,
+    "region": "Metropolitana",
+    "comuna": "santiago",
+    "calle": "chacabuco",
+    "numero": "1120",
+    "direccion": "chacabuco 1120"
+  },
+  "timestamp": "2025-06-05T02:00:54.155Z"
+}

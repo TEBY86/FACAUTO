@@ -1,0 +1,21 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "libertador bernardo o'higgins, Rancagua, Calle dos,  0556",
+  "analisis_ia": {
+    "region": "",
+    "comuna": "rancagua",
+    "calle": "libertador bernardo o'higgins, calle dos",
+    "numero": "0556"
+  },
+  "verificarDireccion": {
+    "ok": false,
+    "mensaje": "🚫 Dirección no encontrada en rancagua.\n📌 Sugerencias:\n- libertador bernardo o'higgins 905\n- libertador bernardo ohiggins 1586\n- libertador bernardo ohiggins 2925"
+  },
+  "timestamp": "2025-04-29T16:17:54.253Z"
+}

@@ -1,0 +1,21 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "metropolitana la florida Vicuna mackenna poniente 6299 depto 1507",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "la florida",
+    "calle": "vicuna mackenna poniente",
+    "numero": "6299"
+  },
+  "verificarDireccion": {
+    "ok": false,
+    "mensaje": "🚫 Dirección no encontrada en la florida.\n📌 Sugerencias:\n- vicuna mackenna poniente 7299\n- vicuna mackenna poniente 7099\n- vicuna mackenna poniente 6995"
+  },
+  "timestamp": "2025-06-04T21:24:01.297Z"
+}

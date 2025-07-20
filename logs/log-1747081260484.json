@@ -1,0 +1,20 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "Pedro Aguirre cerda Pasaje dos pinos 5878",
+  "analisis_ia": {
+    "region": "",
+    "comuna": "Pedro Aguirre Cerda",
+    "calle": "Pasaje Dos Pinos",
+    "numero": "5878"
+  },
+  "verificarDireccion": {
+    "error": "⚠️ No se encontró la comuna \"Pedro Aguirre Cerda\"."
+  },
+  "timestamp": "2025-05-12T20:21:00.480Z"
+}

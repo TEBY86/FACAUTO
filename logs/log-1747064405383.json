@@ -1,0 +1,21 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "Rancagua Los prunos 1183",
+  "analisis_ia": {
+    "region": "",
+    "comuna": "rancagua",
+    "calle": "los prunos",
+    "numero": "1183"
+  },
+  "verificarDireccion": {
+    "ok": false,
+    "mensaje": "🚫 Dirección no encontrada en rancagua.\n📌 Sugerencias:\n- los lulos 2183\n- los lulos 2187\n- los lulos 2181"
+  },
+  "timestamp": "2025-05-12T15:40:05.383Z"
+}

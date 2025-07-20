@@ -1,0 +1,20 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "Metropolitana Peñalolén El Valle 3220, depto 34 torre B",
+  "analisis_ia": {
+    "region": "metropolitana",
+    "comuna": "penalolen",
+    "calle": "el valle",
+    "numero": "3220"
+  },
+  "verificarDireccion": {
+    "error": "⚠️ No se encontró la comuna \"penalolen\"."
+  },
+  "timestamp": "2025-06-04T21:38:01.609Z"
+}

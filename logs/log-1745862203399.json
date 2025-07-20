@@ -1,0 +1,25 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "Valparaíso, Quillota, Av Valparaíso, 1315",
+  "analisis_ia": {
+    "region": "valparaiso",
+    "comuna": "quillota",
+    "calle": "av valparaiso",
+    "numero": "1315"
+  },
+  "verificarDireccion": {
+    "ok": true,
+    "region": "Valparaíso",
+    "comuna": "quillota",
+    "calle": "avenida valparaiso",
+    "numero": "1315",
+    "direccion": "avenida valparaiso 1315"
+  },
+  "timestamp": "2025-04-28T17:43:23.397Z"
+}

@@ -1,0 +1,21 @@
+{
+  "usuario": {
+    "id": 6310789858,
+    "is_bot": false,
+    "first_name": "Sebastián",
+    "last_name": "Leiva",
+    "language_code": "es"
+  },
+  "entrada_original": "libertador bernardo  Rancagua Los prunos 1183 depto 306",
+  "analisis_ia": {
+    "region": "",
+    "comuna": "rancagua",
+    "calle": "libertador bernardo",
+    "numero": "1183"
+  },
+  "verificarDireccion": {
+    "ok": false,
+    "mensaje": "🚫 Dirección no encontrada en rancagua.\n📌 Sugerencias:\n- libertador bernardo ohiggins 1181\n- libertador bernardo ohiggins 893\n- libertador bernardo ohiggins 2383"
+  },
+  "timestamp": "2025-05-12T15:39:30.564Z"
+}
