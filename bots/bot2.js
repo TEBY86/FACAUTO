@@ -34,17 +34,28 @@ async function bot2(ctx, input) {
     return await page.screenshot({ fullPage: true });
   }
 
-  let browser;
-  try {
-    browser = await puppeteer.launch({
-      headless: false,
-      slowMo: 20,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      defaultViewport: { width: 1366, height: 900 },
-    });
+ let browser;
+try {
+  browser = await puppeteer.launch({
+    headless: true, // 🛡️ modo obligatorio en cloud
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ],
+    defaultViewport: { width: 1366, height: 900 }
+  });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (...) Chrome/123.0.0.0 Safari/537.36');
+  const page = await browser.newPage();
+  await page.setUserAgent(
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+  );
+
 
     await page.goto('https://sso-ocp4-sr-amp.apps.sr-ocp.wom.cl/auth/realms/customer-care/protocol/openid-connect/auth?client_id=e7c0d592&redirect_uri=https%3A%2F%2Fcustomercareapplicationservice.ose.wom.cl%2Fwomac%2Flogin&state=d213955b-7112-4036-b60d-a4b79940cde5&response_mode=fragment&response_type=code&scope=openid&nonce=43e8fbde-b45e-46db-843f-4482bbed44b2/', { waitUntil: 'networkidle2' });
 
